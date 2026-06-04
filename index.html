@@ -805,11 +805,11 @@
     </div>
 
     <div class="terminal">
-      <div class="terminal-line"><span class="prompt">root@radytia:~$ </span><span class="cmd">whoami</span></div>
-      <div class="terminal-line out">> Radytia Rifandi | Red Team | Bank Nagari</div>
-      <div class="terminal-line"><span class="prompt">root@radytia:~$ </span><span class="cmd">cat /etc/certifications</span></div>
-      <div class="terminal-line out">> CEH | CND | CRTOM | CRPO | C3SA | CPPS | MCRTA...</div>
-      <div class="terminal-line"><span class="prompt">root@radytia:~$ </span><span class="type-cursor"></span></div>
+      <div class="terminal-line"><span class="prompt">root@radytia:~$ </span><span id="t1"></span><span class="type-cursor" id="cur1"></span></div>
+      <div class="terminal-line" id="l2" style="display:none"><span class="out" id="t2"></span></div>
+      <div class="terminal-line" id="l3" style="display:none"><span class="prompt">root@radytia:~$ </span><span id="t3"></span><span class="type-cursor" id="cur3"></span></div>
+      <div class="terminal-line" id="l4" style="display:none"><span class="out" id="t4"></span></div>
+      <div class="terminal-line" id="l5" style="display:none"><span class="prompt">root@radytia:~$ </span><span class="type-cursor"></span></div>
     </div>
   </div>
 
@@ -1149,6 +1149,52 @@
     }
   }
   setInterval(drawMatrix, 55);
+
+  // TYPING TERMINAL
+  function typeWriter(elId, text, speed, onDone) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.textContent = '';
+    let i = 0;
+    const timer = setInterval(() => {
+      el.textContent += text.charAt(i);
+      i++;
+      if (i >= text.length) { clearInterval(timer); if (onDone) onDone(); }
+    }, speed);
+  }
+  function startTerminal() {
+    const cur1 = document.getElementById('cur1');
+    const cur3 = document.getElementById('cur3');
+    if (cur1) cur1.style.display = 'inline-block';
+    typeWriter('t1', 'whoami', 90, () => {
+      if (cur1) cur1.style.display = 'none';
+      setTimeout(() => {
+        const l2 = document.getElementById('l2');
+        if (l2) l2.style.display = 'block';
+        typeWriter('t2', '> Radytia Rifandi | Red Team | Bank Nagari', 28, () => {
+          setTimeout(() => {
+            const l3 = document.getElementById('l3');
+            if (l3) l3.style.display = 'block';
+            if (cur3) cur3.style.display = 'inline-block';
+            typeWriter('t3', 'cat /etc/certifications', 90, () => {
+              if (cur3) cur3.style.display = 'none';
+              setTimeout(() => {
+                const l4 = document.getElementById('l4');
+                if (l4) l4.style.display = 'block';
+                typeWriter('t4', '> CEH | CND | CRTOM | CRPO | C3SA | CPPS | MCRTA...', 28, () => {
+                  setTimeout(() => {
+                    const l5 = document.getElementById('l5');
+                    if (l5) l5.style.display = 'block';
+                  }, 200);
+                });
+              }, 400);
+            });
+          }, 600);
+        });
+      }, 400);
+    });
+  }
+  setTimeout(startTerminal, 1500);
 
   // SCROLL ANIMATIONS
   const observer = new IntersectionObserver(entries => {
