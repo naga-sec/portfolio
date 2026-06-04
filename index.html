@@ -805,11 +805,11 @@
     </div>
 
     <div class="terminal">
-      <div class="terminal-line"><span class="prompt">root@radytia:~$ </span><span class="cmd">whoami</span></div>
-      <div class="terminal-line out">> Radytia Rifandi | Red Team | Bank Nagari</div>
-      <div class="terminal-line"><span class="prompt">root@radytia:~$ </span><span class="cmd">cat /etc/certifications</span></div>
-      <div class="terminal-line out">> CEH | CND | CRTOM | CRPO | C3SA | CPPS | MCRTA...</div>
-      <div class="terminal-line"><span class="prompt">root@radytia:~$ </span><span class="type-cursor"></span></div>
+      <div class="terminal-line"><span class="prompt">root@radytia:~$ </span><span id="t1"></span></div>
+      <div class="terminal-line" id="l2" style="display:none"><span class="out" id="t2"></span></div>
+      <div class="terminal-line" id="l3" style="display:none"><span class="prompt">root@radytia:~$ </span><span id="t3"></span></div>
+      <div class="terminal-line" id="l4" style="display:none"><span class="out" id="t4"></span></div>
+      <div class="terminal-line" id="l5" style="display:none"><span class="prompt">root@radytia:~$ </span><span class="type-cursor"></span></div>
     </div>
   </div>
 
@@ -1179,6 +1179,35 @@
     }, { threshold: 0.2 });
     skillObs.observe(skillsSection);
   }
+
+  // TYPING TERMINAL
+  function typeText(el, text, speed, cb) {
+    let i = 0;
+    const interval = setInterval(() => {
+      el.textContent += text[i++];
+      if (i >= text.length) { clearInterval(interval); if (cb) cb(); }
+    }, speed);
+  }
+  window.addEventListener('load', () => {
+    typeText(document.getElementById('t1'), 'whoami', 80, () => {
+      setTimeout(() => {
+        document.getElementById('l2').style.display = 'block';
+        typeText(document.getElementById('t2'), '> Radytia Rifandi | Red Team | Bank Nagari', 30, () => {
+          setTimeout(() => {
+            document.getElementById('l3').style.display = 'block';
+            typeText(document.getElementById('t3'), 'cat /etc/certifications', 80, () => {
+              setTimeout(() => {
+                document.getElementById('l4').style.display = 'block';
+                typeText(document.getElementById('t4'), '> CEH | CND | CRTOM | CRPO | C3SA | CPPS | MCRTA...', 30, () => {
+                  document.getElementById('l5').style.display = 'block';
+                });
+              }, 300);
+            });
+          }, 400);
+        });
+      }, 300);
+    });
+  });
 </script>
 </body>
 </html>
